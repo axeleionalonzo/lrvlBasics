@@ -46,7 +46,11 @@ class PostController extends Controller
 
     // whenever user submits button on create post
     public function postAdminCreate(Store $session, Request $request) {
-    	
+    	// utility method validate() because of exended controller, no need to inject validator
+      $this->validate($request, [
+        'title' => 'required|min:5',
+        'content' => 'required|min:10'
+      ]);
     	$post = new Post();
     	// calls the addPost from post model
     	$post->addPost($session, $request->input('title'), $request->input('content'));
@@ -58,6 +62,10 @@ class PostController extends Controller
     // whenever user submits button on create post
     public function postAdminUpdate(Store $session, Request $request) {
     	
+      $this->validate($request, [
+        'title' => 'required|min:5',
+        'content' => 'required|min:10'
+      ]);
     	$post = new Post();
     	// calls the addPost from post model
     	$post->editPost($session, $request->input('id'), $request->input('title'), $request->input('content'));
