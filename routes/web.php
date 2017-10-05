@@ -11,7 +11,11 @@
 |
 */
 
-Route::get('/', 'PostController@getIndex')->name('blog.index');
+// more compact and structured way to link controller
+Route::get('/', [
+	'uses' => 'PostController@index',
+	'as' => 'blog.index'
+]);
 
 Route::get('post/{id}', function($id) {
 	if ($id == 1) {
