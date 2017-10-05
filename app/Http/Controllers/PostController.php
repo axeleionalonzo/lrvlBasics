@@ -28,8 +28,8 @@ class PostController extends Controller
     public function getPost(Store $session, $id) {
     	
     	$post = new Post();
-    	$posts = $post->getPosts($session, $id);
-    	return view('blog.post', ['posts' => $posts]);
+    	$post = $post->getPost($session, $id);
+    	return view('blog.post', ['post' => $post]);
     }
 
     public function getAdminCreate() {
@@ -40,17 +40,17 @@ class PostController extends Controller
     public function getAdminEdit(Store $session, $id) {
     	
     	$post = new Post();
-    	$posts = $post->getPosts($session, $id);
+    	$post = $post->getPost($session, $id);
     	return view('admin.edit', ['post' => $post, 'postId' => $id]);
     }
 
     // whenever user submits button on create post
     public function postAdminCreate(Store $session, Request $request) {
     	// utility method validate() because of exended controller, no need to inject validator
-      $this->validate($request, [
-        'title' => 'required|min:5',
-        'content' => 'required|min:10'
-      ]);
+		$this->validate($request, [
+			'title' => 'required|min:5',
+			'content' => 'required|min:10'
+		]);
     	$post = new Post();
     	// calls the addPost from post model
     	$post->addPost($session, $request->input('title'), $request->input('content'));
@@ -62,10 +62,10 @@ class PostController extends Controller
     // whenever user submits button on create post
     public function postAdminUpdate(Store $session, Request $request) {
     	
-      $this->validate($request, [
-        'title' => 'required|min:5',
-        'content' => 'required|min:10'
-      ]);
+		$this->validate($request, [
+			'title' => 'required|min:5',
+			'content' => 'required|min:10'
+		]);
     	$post = new Post();
     	// calls the addPost from post model
     	$post->editPost($session, $request->input('id'), $request->input('title'), $request->input('content'));

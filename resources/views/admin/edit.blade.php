@@ -27,6 +27,7 @@
                 {{-- we can use <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
                      or we can use laravel helper function for this! --}}
                 {{ csrf_field() }} 
+                <input type="hidden" name="id" value="{{ $postId }}">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

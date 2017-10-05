@@ -9,7 +9,6 @@ class Post
 		if (!$session->has('posts')) {
 			$this->createDummyData($session);
 		}
-
 		return $session->get('posts');
 	}
 
@@ -18,7 +17,6 @@ class Post
 		if (!$session->has('posts')) {
 			$this->createDummyData($session);
 		}
-
 		return $session->get('posts')[$id];
 	}
 
