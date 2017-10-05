@@ -1,0 +1,10 @@
+.quote {
+	font: 400 72px 'Arizonia', cursive;
+	color: #F4645F;
+	text-align: center;
+}
+
+.post-title {
+	font-size: 1.5em;
+	color: #F4645F
+}
