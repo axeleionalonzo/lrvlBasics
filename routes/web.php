@@ -13,7 +13,7 @@
 
 // more compact and structured way to link controller
 Route::get('/', [
-	'uses' => 'PostController@index',
+	'uses' => 'PostController@getIndex',
 	'as' => 'blog.index'
 ]);
 
