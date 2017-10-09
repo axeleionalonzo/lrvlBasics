@@ -4,27 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Post; // links the model post class
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-use Illuminate\Session\Store;
 
 class PostController extends Controller
 {
     public function getIndex() {
     	
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'desc')->get(); // using query builder
     	return view('blog.index', ['posts' => $posts]);
     }
 
     public function getAdminIndex() {
     	
-        $posts = Post::all();
+        $posts = Post::orderBy('title', 'asc')->get(); // you can chain as many transformation method (e.g. where, join)
     	return view('admin.index', ['posts' => $posts]);
     }
 
     public function getPost($id) {
     	
-        $post = Post::find($id);
+        $post = Post::where('id', $id)->first(); // well use first because we know the query is only one
+        // $post = Post::find($id); // or we can use find for shorter hand
     	return view('blog.post', ['post' => $post]);
     }
 
@@ -60,7 +59,7 @@ class PostController extends Controller
     }
 
     // whenever user submits button on create post
-    public function postAdminUpdate(Store $session, Request $request) {
+    public function postAdminUpdate(Request $request) {
     	
 		$this->validate($request, [
 			'title' => 'required|min:5',
