@@ -25,4 +25,10 @@
     </div>
     <hr>
     @endforeach
+    <div class="row">
+        <div class="col-md-12 text-center">
+            {{-- run `php artisan vendor:publish --tag=laravel-pagination` to edit the style of 3rd party package --}}
+            {{ $posts->links() }}
+        </div>
+    </div>
 @endsection

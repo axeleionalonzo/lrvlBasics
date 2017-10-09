@@ -11,7 +11,8 @@ use App\Http\Requests;
 class PostController extends Controller
 {
     public function getIndex() {
-        $posts = Post::orderBy('created_at', 'desc')->get(); // using query builder
+        // using pagination, 2 is the number of posts per page
+        $posts = Post::orderBy('created_at', 'desc')->paginate(2);
     	return view('blog.index', ['posts' => $posts]);
     }
 
