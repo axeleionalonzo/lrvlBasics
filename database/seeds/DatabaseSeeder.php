@@ -11,6 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // php artisan migrate --seed (to run both step)
+    	$this->call(PostTableSeeder::class);
+    	$this->call(TagTableSeeder::class);
         // $this->call(UsersTableSeeder::class);
     }
 }
