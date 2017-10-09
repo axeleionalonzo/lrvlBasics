@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post; // links the model post class
 use App\Like;
+use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -35,12 +36,14 @@ class PostController extends Controller
     }
 
     public function getAdminCreate() {
-    	return view('admin.create');
+        $tags = Tag::all();
+    	return view('admin.create', ['tags' => $tags]);
     }
 
     public function getAdminEdit($id) {
         $post = Post::find($id);
-    	return view('admin.edit', ['post' => $post, 'postId' => $id]);
+        $tags = Tag::all();
+    	return view('admin.edit', ['post' => $post, 'postId' => $id, 'tags' => $tags]);
     }
 
     // whenever user submits button on create post
@@ -57,6 +60,8 @@ class PostController extends Controller
             'content' => $request->input('content')
         ]);
         $post->save();
+        // adds a condition if there is no tag
+        $post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
 
     	return redirect()
     			->route('admin.index')
@@ -74,6 +79,11 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->content = $request->input('content');
         $post->save(); // laravel will not create a new one but updates the field
+        // we can detach first so that we can make sure that the removed tags are no longer attached
+        // $post->tags()->detach();
+        // $post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
+        // or we can use laravel sync() for this to make sure that only the modified tags are updated
+        $post->tags()->sync($request->input('tags') === null ? [] : $request->input('tags'));
 
     	return redirect()
     			->route('admin.index')
@@ -83,6 +93,7 @@ class PostController extends Controller
     public function getAdminDelete($id) {
         $post = Post::find($id);
         $post->likes()->delete(); // delete the like where points to a post which will no longer exist
+        $post->tags()->detach(); // many-to-many relationship use detach as delete
         $post->delete();
 
         return redirect()

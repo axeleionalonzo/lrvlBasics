@@ -26,6 +26,16 @@
                 {{-- csrf token are used to help protect servers from getting malicious request --}}
                 {{-- we can use <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
                      or we can use laravel helper function for this! --}}
+                @foreach($tags as $tag)
+                    <div class="checkbox">
+                        <label>
+                            {{-- checks if it contain a tag --}}
+                            <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                            {{ $post->tags->contains($tag->id) ? 'checked' : '' }}>
+                            {{ $tag->name }}
+                        </label>
+                    </div>
+                @endforeach
                 {{ csrf_field() }} 
                 <input type="hidden" name="id" value="{{ $postId }}">
                 <button type="submit" class="btn btn-primary">Submit</button>

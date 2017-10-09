@@ -11,6 +11,11 @@
         <div class="col-md-12 text-center">
             {{-- you always access database fields like properties --}}
             <h1 class="post-title">{{ $post->title }}</h1>
+            <p style="font-weight: bold">
+                @foreach($post->tags as $tag)
+                    - {{ $tag->name }} -
+                @endforeach
+            </p>
             <p>{{ $post->content }}</p>
             <p>
                 {{ count($post->likes) }} Likes |
