@@ -27,4 +27,17 @@ class Post extends Model
 		return $this->belongsToMany('App\Tag')
 				->withTimeStamps(); // make sure that time in your pivot table is filled out whenever a new relationship entry is created
 	}
+
+	// defining a mutator
+	// force title to be a lower case when saving it
+	// naming convention (setXXAttribute) where XX should always be capital (e.g. first_title => FirstTitle)
+	public function setTitleAttribute($value) {
+		$this->attributes['title'] = strtolower($value); // this will be the one stored in database
+	}
+
+	// defining an accessor
+	// force title to be a upper case when retreiving it
+	public function getTitleAttribute($value) {
+		return ucfirst($value); // this will be the one stored in database
+	}
 }
