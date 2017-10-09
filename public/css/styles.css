@@ -8,3 +8,7 @@
 	font-size: 1.5em;
 	color: #F4645F
 }
+
+.pagination {
+   justify-content: center;
+}

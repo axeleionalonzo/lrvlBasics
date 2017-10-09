@@ -26,7 +26,7 @@
     <hr>
     @endforeach
     <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12">
             {{-- run `php artisan vendor:publish --tag=laravel-pagination` to edit the style of 3rd party package --}}
             {{ $posts->links() }}
         </div>
