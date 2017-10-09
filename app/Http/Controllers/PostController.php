@@ -10,25 +10,21 @@ use Illuminate\Session\Store;
 
 class PostController extends Controller
 {
-    public function getIndex(Store $session) {
+    public function getIndex() {
     	
-    	// instantiate post model
-    	$post = new Post();
-    	$posts = $post->getPosts($session);
+        $posts = Post::all();
     	return view('blog.index', ['posts' => $posts]);
     }
 
-    public function getAdminIndex(Store $session) {
+    public function getAdminIndex() {
     	
-    	$post = new Post();
-    	$posts = $post->getPosts($session);
+        $posts = Post::all();
     	return view('admin.index', ['posts' => $posts]);
     }
 
-    public function getPost(Store $session, $id) {
+    public function getPost($id) {
     	
-    	$post = new Post();
-    	$post = $post->getPost($session, $id);
+        $post = Post::find($id);
     	return view('blog.post', ['post' => $post]);
     }
 
@@ -37,15 +33,14 @@ class PostController extends Controller
     	return view('admin.create');
     }
 
-    public function getAdminEdit(Store $session, $id) {
+    public function getAdminEdit($id) {
     	
-    	$post = new Post();
-    	$post = $post->getPost($session, $id);
+        $post = Post::find($id);
     	return view('admin.edit', ['post' => $post, 'postId' => $id]);
     }
 
     // whenever user submits button on create post
-    public function postAdminCreate(Store $session, Request $request) {
+    public function postAdminCreate(Request $request) {
     	// utility method validate() because of exended controller, no need to inject validator
 		$this->validate($request, [
 			'title' => 'required|min:5',
@@ -71,11 +66,24 @@ class PostController extends Controller
 			'title' => 'required|min:5',
 			'content' => 'required|min:10'
 		]);
-    	$post = new Post();
-    	// calls the addPost from post model
-    	$post->editPost($session, $request->input('id'), $request->input('title'), $request->input('content'));
+
+    	$post = Post::find($request->input('id'));
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
+        $post->save(); // laravel will not create a new one but updates the field
+
     	return redirect()
     			->route('admin.index')
     			->with('info', 'Post edited, new Title is: ' . $request->input('title'));
+    }
+
+    public function getAdminDelete($id) {
+
+        $post = Post::find($id);
+        $post->delete();
+
+        return redirect()
+            ->route('admin.index')
+            ->with('info', 'Post Deleted!');
     }
 }
