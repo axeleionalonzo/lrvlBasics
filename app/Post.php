@@ -1,9 +1,16 @@
 <?php
 
 namespace App;
+// extends eloquent model
+// php artisan make:model Post -m
+// -m creates migration file
+use Illuminate\Database\Eloquent\Model;
 
-class Post
+class Post extends Model
 {
+	// make assignable database field 
+	protected $fillable = ['title', 'content'];
+
 	public function getPosts($session) {
 
 		if (!$session->has('posts')) {
