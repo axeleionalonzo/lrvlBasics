@@ -12,7 +12,10 @@
             {{-- you always access database fields like properties --}}
             <h1 class="post-title">{{ $post->title }}</h1>
             <p>{{ $post->content }}</p>
-            <p><a href="{{ route('blog.post', ['id' => $post->id]) }}">Read more...</a></p>
+            <p>
+                {{ count($post->likes) }} Likes |
+                <a href="{{ route('blog.post', ['id' => $post->id]) }}">Read more...</a>
+            </p>
         </div>
     </div>
     <hr>

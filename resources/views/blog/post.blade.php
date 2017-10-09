@@ -8,6 +8,13 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            {{-- prevents another query because of `eager loading` happening on the controller --}}
+            <p>{{ count($post->likes) }} Likes | 
+                <a href="{{ route('blog.post.like', ['id' => $post->id]) }}">Like</a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <p>{{ $post->content }}</p>
         </div>
     </div>

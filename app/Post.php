@@ -14,4 +14,9 @@ class Post extends Model
 	// make assignable database field 
 	protected $fillable = ['title', 'content'];
 	protected $dates = ['deleted_at'];
+
+	// defining one-to-many relationships
+	public function likes() {
+		return $this->hasMany('App\Like', 'post_id'); // post_id will be the foreign key you can modify if u like (this is laravel default, no need to add)
+	}
 }
